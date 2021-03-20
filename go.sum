@@ -44,6 +44,8 @@ github.com/PonyWilliam/go-product v0.0.0-20210316123247-81c5fdc4d877 h1:eHOPw33V
 github.com/PonyWilliam/go-product v0.0.0-20210316123247-81c5fdc4d877/go.mod h1:BqJkoQz5X8rEGyQH9DnbIv8l5vi83lPZOyT3BLIUCmU=
 github.com/PonyWilliam/go-works v0.0.0-20210313033231-f5d0cf5397d2 h1:9r21IDJNcrqGJfEejK8quWUKQmrspQzLsRfuQznA1kY=
 github.com/PonyWilliam/go-works v0.0.0-20210313033231-f5d0cf5397d2/go.mod h1:bK7hGihdJGoudOa0l74sDN/ong0uM+fM3jxKKL+X62c=
+github.com/PonyWilliam/go-works v1.0.0 h1:21XjU+lPAJCjKbxoIE2aTOKCKIIFHHt/CghLr2qeTsk=
+github.com/PonyWilliam/go-works v1.0.0/go.mod h1:bK7hGihdJGoudOa0l74sDN/ong0uM+fM3jxKKL+X62c=
 github.com/PuerkitoBio/goquery v1.5.1/go.mod h1:GsLWisAFVj4WgDibEWF4pvYnkVQBpKBKeU+7zCJoLcc=
 github.com/Shopify/sarama v1.19.0/go.mod h1:FVkBWblsNy7DGZRfXLU0O9RCGt5g3g3yEuWXgklEdEo=
 github.com/Shopify/toxiproxy v2.1.4+incompatible/go.mod h1:OXgGpZ6Cli1/URJOF1DMxUHB2q5Ap20/P/eIdh4G0pI=

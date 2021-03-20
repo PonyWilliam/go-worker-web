@@ -27,6 +27,8 @@ func main() {
 	v1.POST("/token/",handler.JWTAuthMiddleware(),handler.LoginByToken)
 	v1.GET("/worker/:id",handler.JWTAuthMiddleware(),handler.GetUserInfoByID)
 	v1.GET("/worker",handler.JWTAuthMiddleware(),handler.GetUserInfoAll)
+	v1.POST("/worker",handler.SetWorker)
+	v1.POST("/worker/:id",handler.ChangeWorker)
 	v1.GET("/workername/:name",handler.JWTAuthMiddleware(),handler.GetUserInfoByName)
 	v1.GET("/workernum/:nums",handler.JWTAuthMiddleware(),handler.GetUserInfoByNums)
 	v1.GET("/workerusername/:username",handler.JWTAuthMiddleware(),handler.GetUserInfoByUsername)
