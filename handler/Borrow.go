@@ -73,6 +73,14 @@ func Borrow(c *gin.Context){
 		})
 		return
 	}
+	Product.Info.ProductIs = false
+	_, err = cl1.ChangeProduct(context.TODO(), Product.Info)
+	if err!=nil{
+		c.JSON(200,gin.H{
+			"code":500,
+			"msg":err.Error(),
+		})
+	}
 	c.JSON(200,gin.H{
 		"code":200,
 		"msg":rsp.Message,
