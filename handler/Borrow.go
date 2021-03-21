@@ -55,6 +55,12 @@ func Borrow(c *gin.Context){
 		})
 		return
 	}
+	if Product.Info.ProductIs == false{
+		c.JSON(200,gin.H{
+			"code":500,
+			"msg":"商品不在库",
+		})
+	}
 	if worker.Worker.Level < Product.Info.ProductLevel{
 		c.JSON(200,gin.H{
 			"code":500,
