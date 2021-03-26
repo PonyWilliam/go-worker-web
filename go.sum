@@ -42,6 +42,10 @@ github.com/PonyWilliam/go-borrow-logs v1.0.1 h1:R+Ib77w1nTF6uFJ3T/AWwo/CzgZnv1k4
 github.com/PonyWilliam/go-borrow-logs v1.0.1/go.mod h1:0hLZiCpyit3osmKBn+YQvI1775RF26wNyYf62WzimpM=
 github.com/PonyWilliam/go-borrow-logs v1.0.2 h1:oFrFNcMoaHKIUTvOCVgP001+SroniHw3ABQRuc3eUgQ=
 github.com/PonyWilliam/go-borrow-logs v1.0.2/go.mod h1:0hLZiCpyit3osmKBn+YQvI1775RF26wNyYf62WzimpM=
+github.com/PonyWilliam/go-borrow-logs v1.0.3 h1:y9hfKIJ48POWNRBAZZsmp5zsoJ8hFUdj0s0o4nZyVy4=
+github.com/PonyWilliam/go-borrow-logs v1.0.3/go.mod h1:0hLZiCpyit3osmKBn+YQvI1775RF26wNyYf62WzimpM=
+github.com/PonyWilliam/go-borrow-logs v1.0.4 h1:pyihI2PFF7qh6nf58Qg1PAqSYlXhEvKKrXPfCNXSB4Q=
+github.com/PonyWilliam/go-borrow-logs v1.0.4/go.mod h1:0hLZiCpyit3osmKBn+YQvI1775RF26wNyYf62WzimpM=
 github.com/PonyWilliam/go-common v0.0.0-20210208041853-3307a2394f4c h1:Y8D7bVZpyc2BADmOT2mIDK8M3Klh0apwoulBpjZUd+Y=
 github.com/PonyWilliam/go-common v0.0.0-20210208041853-3307a2394f4c/go.mod h1:xMCdv0SxQM+zPBvQPOrVPglF7Bwl541f86931dYvRZ4=
 github.com/PonyWilliam/go-product v0.0.0-20210316123247-81c5fdc4d877 h1:eHOPw33VDEceZC6TzgEjuezPaWdtx1eFrMVcz8ziMck=

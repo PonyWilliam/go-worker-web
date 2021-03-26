@@ -273,11 +273,31 @@ func To_Other(c *gin.Context){
 		})
 		return
 	}
-	fmt.Println("rsp2")
-	fmt.Println(rsp2)
 	//等待他人确认后即可调用borrow服务改变状态
 	cl2 := borrowlog.NewBorrowLogsService("go.micro.service.borrowlog",client.DefaultClient)
-	_,err = cl2.ToOther(context.TODO(),&borrowlog.ReqToOther{ReqWID: worker.Worker.ID,RspWID: new_other_id,PID: rsp2.PID,Reason: Reason})
+	rsp_temp,err := cl2.FindByLogID(context.TODO(),&borrowlog.Req_LogID{Logid: rsp2.ID})
+	if err!=nil{
+		c.JSON(200,gin.H{
+			"code":200,
+			"msg":err.Error(),
+		})
+		return
+	}
+	test := 0
+	for _,v := range rsp_temp.Logs{
+		if v.Logid == new_log_id && v.Confirm == 3{
+			//允许再次租借
+			test = 1
+		}
+	}
+	if test == 0{
+		c.JSON(200,gin.H{
+			"code":500,
+			"msg":"已有记录，无法继续出借",
+		})
+		return
+	}
+	_,err = cl2.ToOther(context.TODO(),&borrowlog.ReqToOther{ReqWID: worker.Worker.ID,RspWID: new_other_id,PID: rsp2.PID,Reason: Reason,Logid: rsp2.ID})
 	if err!=nil{
 		c.JSON(200,gin.H{
 			"code":500,
@@ -338,6 +358,48 @@ func Confirm(c *gin.Context){
 		return
 	}
 	c.JSON(200,rsp2.Message)
+}
+func Reject(c *gin.Context){
+	id := c.PostForm("id")
+	user,ok := c.Get("username")
+	new_id,err := strconv.ParseInt(id,10,64)
+	if !ok{
+		c.JSON(200, gin.H{
+			"code":500,
+			"msg":"非法访问",
+		})
+		return
+	}
+	new_user := Strval(user)
+	worker,err := getUserInfo(new_user)
+	if err != nil{
+		c.JSON(200,gin.H{
+			"code":500,
+			"msg":"无法读取到你的信息",
+		})
+		return
+	}
+	cl := borrowlog.NewBorrowLogsService("go.micro.service.borrowlog",client.DefaultClient)
+	rsp, _ := cl.FindByID(context.TODO(), &borrowlog.Req_Id{Id: new_id})
+	if rsp.RspWID != worker.Worker.ID{
+		c.JSON(200,gin.H{
+			"code":500,
+			"msg":"您无权确认",
+		})
+		return
+	}
+	rsp2,_ := cl.Reject(context.TODO(),&borrowlog.Req_Reject{ID: new_id})
+	if rsp2.Status == false{
+		c.JSON(200,gin.H{
+			"code":500,
+			"msg":rsp2.Message,
+		})
+		return
+	}
+	c.JSON(200,gin.H{
+		"code":200,
+		"msg":rsp2.Message,
+	})
 }
 //下面是小工具
 func getUserInfo(username string)(*works.Response_Worker_Show,error){
