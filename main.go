@@ -23,7 +23,7 @@ func main() {
 		)
 	_ = service.Init()
 	v1 := router.Group("work")
-	v1.POST("/login/",handler.CheckPwd)
+	v1.POST("/login",handler.CheckPwd)
 	v1.POST("/token/",handler.JWTAuthMiddleware(),handler.LoginByToken)
 	v1.GET("/worker/:id",handler.JWTAuthMiddleware(),handler.GetUserInfoByID)
 	v1.GET("/worker",handler.JWTAuthMiddleware(),handler.GetUserInfoAll)
@@ -32,8 +32,16 @@ func main() {
 	v1.GET("/workername/:name",handler.JWTAuthMiddleware(),handler.GetUserInfoByName)
 	v1.GET("/workernum/:nums",handler.JWTAuthMiddleware(),handler.GetUserInfoByNums)
 	v1.GET("/workerusername/:username",handler.JWTAuthMiddleware(),handler.GetUserInfoByUsername)
-	v1.POST("/worker/borrow",handler.JWTAuthMiddleware(),handler.Borrow)
-	v1.POST("/worker/other",handler.JWTAuthMiddleware(),handler.To_Other)
+	v1.POST("/borrow/:pid",handler.JWTAuthMiddleware(),handler.Borrow)
+	v1.GET("/borrow/user/",handler.JWTAuthMiddleware(),handler.GetBorrowByWorkerID)
+	v1.POST("/return/:pid",handler.Return)
+	v1.POST("/other",handler.JWTAuthMiddleware(),handler.To_Other)
+	v1.GET("/", func(context *gin.Context) {
+		context.JSON(200,gin.H{
+			"code":200,
+			"msg":"hello world",
+		})
+	})
 	corsConf := cors.DefaultConfig()
 	corsConf.AllowAllOrigins = true
 	corsConf.AddAllowHeaders("token")

@@ -6,6 +6,7 @@ import (
 	"fmt"
 	borrowlog "github.com/PonyWilliam/go-borrow-logs/proto"
 	borrow "github.com/PonyWilliam/go-borrow/proto"
+	"github.com/PonyWilliam/go-common"
 	product "github.com/PonyWilliam/go-product/proto"
 	works "github.com/PonyWilliam/go-works/proto"
 	"github.com/gin-gonic/gin"
@@ -13,11 +14,53 @@ import (
 	"strconv"
 	"time"
 )
+var jetson string = "jetson"
+func GetBorrowByWorkerID(c *gin.Context){
+	user,ok := c.Get("username")
+	now := c.Query("now")
+	if !ok{
+		c.JSON(200,gin.H{
+			"code":500,
+			"msg":"token内容获取失败，请重新登陆",
+		})
+		return
+	}
+	user2 := Strval(user)
+	worker,err := getUserInfo(user2)
+	if worker == nil || worker.Worker == nil || err!=nil{
+		c.JSON(200,gin.H{
+			"code":500,
+			"msg":"没有查询到你的信息",
+		})
+		return
+	}
+	cl := borrow.NewBorrowService("go.micro.service.borrow",client.DefaultClient)
+	rsp,err := cl.FindBorrowByWID(context.TODO(), &borrow.WID_Request{WID: worker.Worker.ID})
+	if err!=nil || rsp==nil{
+		c.JSON(200,gin.H{
+			"code":500,
+			"msg":"无法查询到信息",
+		})
+		return
+	}
+	if now == "now"{
+		//只显示未归还的
+		temp := &borrow.Borrowlogs_Response{}
+			for _,v := range rsp.Logs{
+			if v.ReturnTime == 0{
+				temp.Logs = append(temp.Logs,v)
+			}
+		}
+		c.JSON(200,temp.Logs)
+		return
+	}
+	c.JSON(200,rsp.Logs)
+}
 func Borrow(c *gin.Context){
 	/*
 	(req.WorkerId,req.ProductId,req.ScheduleTime)
 	*/
-	PID := c.PostForm("PID")
+	PID := c.Param("pid")
 	if PID == ""{
 		c.JSON(200,gin.H{
 			"code":500,
@@ -48,20 +91,22 @@ func Borrow(c *gin.Context){
 		})
 	}
 	Product,err := cl1.FindProductByID(context.TODO(),&product.Request_ProductID{Id: newPID})
-	if Product == nil{
+	fmt.Println(Product)
+	if Product == nil || err!=nil{
 		c.JSON(200,gin.H{
 			"code":500,
 			"msg":"无法获取商品信息",
 		})
 		return
 	}
-	if Product.Info.ProductIs == false{
+	if Product.ProductIs == false{
 		c.JSON(200,gin.H{
 			"code":500,
 			"msg":"商品不在库",
 		})
+		return
 	}
-	if worker.Worker.Level < Product.Info.ProductLevel{
+	if worker.Worker.Level < Product.ProductLevel{
 		c.JSON(200,gin.H{
 			"code":500,
 			"msg":"您无权限借走该商品",
@@ -72,15 +117,18 @@ func Borrow(c *gin.Context){
 	borrowRequest.WorkerId = worker.Worker.ID
 	borrowRequest.ProductId = newPID
 	rsp, _ := cl2.Borrow(context.TODO(), &borrowRequest)
-	if rsp.Status == 0{
+	if rsp == nil || rsp.Status == 0{
 		c.JSON(200,gin.H{
 			"code":500,
-			"msg":rsp.Message,
+			"msg":"出借错误",
 		})
 		return
 	}
-	Product.Info.ProductIs = false
-	_, err = cl1.ChangeProduct(context.TODO(), Product.Info)
+	Product.ProductIs = false
+	Product.ProductBelongCustom = worker.Worker.ID
+	temp2 := &product.Request_ProductInfo{}
+	_ = common.SwapTo(Product, temp2)
+	_, err = cl1.ChangeProduct(context.TODO(), temp2)
 	if err!=nil{
 		c.JSON(200,gin.H{
 			"code":500,
@@ -90,6 +138,67 @@ func Borrow(c *gin.Context){
 	c.JSON(200,gin.H{
 		"code":200,
 		"msg":rsp.Message,
+	})
+}
+func Return(c *gin.Context){
+	admin := c.PostForm("admin")
+	pid := c.Param("pid")
+	NewPid,_ := strconv.ParseInt(pid,10,64)
+	if admin != jetson{
+		//这个相当于密钥，会保密处理
+		c.JSON(200,gin.H{
+			"code":500,
+			"msg":"无权访问",
+		})
+		return
+	}
+	cl1 := product.NewProductService("go.micro.service.product",client.DefaultClient)
+	cl2 := borrow.NewBorrowService("go.micro.service.borrow",client.DefaultClient)
+	rsp,err := cl2.FindBorrowByPID(context.TODO(),&borrow.PID_Request{PID: NewPid})
+	if err!=nil || rsp==nil || rsp.Logs==nil {
+		c.JSON(200,gin.H{
+			"code":500,
+			"msg":"无法读取租借信息",
+		})
+		return
+	}
+	productInfo,err := cl1.FindProductByID(context.TODO(),&product.Request_ProductID{Id: NewPid})
+	if err!=nil || productInfo == nil{
+		c.JSON(200,gin.H{
+			"code":500,
+			"msg":"无法读取产品信息",
+		})
+		return
+	}
+	for _,v := range rsp.Logs{
+		if v.ReturnTime == 0{
+			_, err = cl2.Return(context.TODO(), &borrow.Returns_Request{Id: v.ID})
+			if err!=nil{
+				c.JSON(200,gin.H{
+					"code":500,
+					"msg":"归还时出错",
+				})
+				return
+			}
+			break
+		}
+	}
+	productInfo.ProductIs = true
+	productInfo.ProductBelongCustom = 0
+	productInfo.ProductLocation = "库房"
+	productRequest := &product.Request_ProductInfo{}
+	_ = common.SwapTo(productInfo, productRequest)
+	_,err = cl1.ChangeProduct(context.TODO(),productRequest)
+	if err!=nil{
+		c.JSON(200,gin.H{
+			"code":500,
+			"msg":"更改产品状态出错",
+		})
+		return
+	}
+	c.JSON(200,gin.H{
+		"code":200,
+		"msg":"归还成功",
 	})
 }
 func To_Other(c *gin.Context){
@@ -106,6 +215,15 @@ func To_Other(c *gin.Context){
 	new_log_id,err := strconv.ParseInt(log_id,10,64)
 	new_other_id,err := strconv.ParseInt(other_id,10,64)
 	cl := borrow.NewBorrowService("go.micro.service.borrow",client.DefaultClient)
+	cl3 := works.NewWorksService("go.micro.service.works",client.DefaultClient)
+	rsp3, err := cl3.FindWorkerByNums(context.TODO(),&works.Request_Workers_Nums{Nums: new_other_id})
+	if err!=nil || rsp3==nil{
+		c.JSON(200,gin.H{
+			"code":500,
+			"msg":"读取对方信息失败",
+		})
+		return
+	}
 	user,ok := c.Get("username")
 	newuser := Strval(user)
 	if !ok{
@@ -126,48 +244,47 @@ func To_Other(c *gin.Context){
 	if worker == nil {
 		c.JSON(200,gin.H{
 			"code":500,
-			"msg":"用户表发生未知错误，请联系管理员",
+			"msg":"越权访问，请重新登陆",
 		})
 		return
 	}
 	rsp, _ := cl.CheckToOther(context.TODO(), &borrow.ToOtherRequest{Id: new_log_id,Wid: new_other_id})
 	if rsp.Status == 0{
-		fmt.Println("在1错误")
 		c.JSON(200,gin.H{
 			"code":500,
-			"msg":"check错误",
+			"msg":"错误的wid",
 		})
 		return
 	}
+	fmt.Println(new_log_id)
 	rsp2,err := cl.FindBorrowByID(context.TODO(),&borrow.ID_Request{Id: new_log_id})
 	if err != nil{
-		fmt.Println("在2错误")
 		c.JSON(200,gin.H{
 			"code":500,
 			"msg":"findborrow错误",
 		})
 		return
 	}
-	if rsp2 == nil{
+	t := &borrow.Borrowlog_Response{}
+	if rsp2 == nil || rsp2== t{
 		c.JSON(200,gin.H{
 			"code":500,
 			"msg":"查询信息失败",
 		})
 		return
 	}
+	fmt.Println("rsp2")
 	fmt.Println(rsp2)
 	//等待他人确认后即可调用borrow服务改变状态
 	cl2 := borrowlog.NewBorrowLogsService("go.micro.service.borrowlog",client.DefaultClient)
 	_,err = cl2.ToOther(context.TODO(),&borrowlog.ReqToOther{ReqWID: worker.Worker.ID,RspWID: new_other_id,PID: rsp2.PID,Reason: Reason})
 	if err!=nil{
-		fmt.Println("在3错误")
 		c.JSON(200,gin.H{
 			"code":500,
 			"msg":err.Error(),
 		})
 		return
 	}
-	fmt.Println("hello")
 	c.JSON(200,gin.H{
 		"code":200,
 		"msg":"success",
@@ -203,8 +320,24 @@ func Confirm(c *gin.Context){
 		return
 	}
 	//权限判断完毕
+	_, err = cl.Confirm(context.TODO(), &borrowlog.Req_Confirm{ID: new_id})
+	if err!=nil{
+		c.JSON(200,gin.H{
+			"code":500,
+			"msg":err.Error(),
+		})
+		return
+	}
 	cl2 := borrow.NewBorrowService("go.micro.service.borrow",client.DefaultClient)
-	cl2.ToOther(context.TODO(),&borrow.ToOtherRequest{})
+	rsp2,err := cl2.ToOther(context.TODO(),&borrow.ToOtherRequest{Id: rsp.Logid,Wid: rsp.RspWID})
+	if err!=nil{
+		c.JSON(200,gin.H{
+			"code":500,
+			"msg":err.Error(),
+		})
+		return
+	}
+	c.JSON(200,rsp2.Message)
 }
 //下面是小工具
 func getUserInfo(username string)(*works.Response_Worker_Show,error){
