@@ -3,6 +3,7 @@ package handler
 import (
 	"context"
 	"errors"
+	"fmt"
 	works "github.com/PonyWilliam/go-works/proto"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
@@ -24,10 +25,12 @@ type MyClaims struct {
 func CheckPwd(c *gin.Context){
 	cl := works.NewWorksService("go.micro.service.works",client.DefaultClient)
 	rsp := &works.LoginResponse{}
-	user := c.PostForm("user")
-	rsp, err := cl.CheckSum(context.TODO(), &works.LoginRequest{User: user,
-		Password: c.PostForm("password"),
+	username := c.PostForm("username")
+	password := c.PostForm("password")
+	rsp, err := cl.CheckSum(context.TODO(), &works.LoginRequest{User: username,
+		Password: password,
 	})
+	fmt.Println(username,password)
 	if err!=nil{
 
 		c.JSON(200,gin.H{
@@ -40,7 +43,7 @@ func CheckPwd(c *gin.Context){
 		c.JSON(200,gin.H{"code":500,"msg":"密码不正确"})
 		return
 	}
-	token,_ := GenToken(user)
+	token,_ := GenToken(username)
 	c.JSON(200,gin.H{"code":200,"msg":"登陆成功","token":token})
 }
 func GenToken(username string)(string,error){
@@ -67,6 +70,6 @@ func ParseToken(tokenString string)(*MyClaims,error){
 func LoginByToken(c *gin.Context){
 	c.JSON(200,gin.H{
 		"code":200,
-		"msg":"success",
+		"msg":"身份有效",
 	})
 }

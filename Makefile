@@ -19,4 +19,7 @@ test:
 
 .PHONY: docker
 docker:
-	docker build . -t WorkWeb-service:latest
+	go build -o WorkWeb main.go
+	docker build -t ponywilliam/work-web .
+	docker tag ponywilliam/work-web ponywilliam/work-web
+	docker push ponywilliam/work-web

@@ -3,38 +3,44 @@ package handler
 import (
 	"context"
 	"fmt"
+	"github.com/PonyWilliam/go-WorkWeb/cache"
 	works "github.com/PonyWilliam/go-works/proto"
 	"github.com/gin-gonic/gin"
+	"github.com/go-redis/redis"
 	"github.com/micro/go-micro/v2/client"
 	"strconv"
 )
 
 func GetUserInfoByID(c *gin.Context){
 	//获取基本信息，渲染到前端
-	user,_ := c.Get("username")
-	if user != "admin"{
-		c.JSON(200,gin.H{
-			"code":500,
-			"msg":"您无权访问",
-		})
-	}
-	cl := works.NewWorksService("go.micro.service.works",client.DefaultClient)
 	id := c.Param("id")
-	rsp := &works.Response_Worker_Show{Worker: nil}
 	newid, _ := strconv.ParseInt(id, 10, 64)
-	rsp,err := cl.FindWorkerByID(context.TODO(),&works.Request_Workers_ID{Id: newid})
-	if err!=nil{
+	res,err := cache.GetGlobalCache(fmt.Sprintf("worker_%v",newid))
+	if err!= nil || err == redis.Nil{
+		cl := works.NewWorksService("go.micro.service.works",client.DefaultClient)
+		rsp := &works.Response_Worker_Show{Worker: nil}
+		rsp,err := cl.FindWorkerByID(context.TODO(),&works.Request_Workers_ID{Id: newid})
+		if err!=nil{
+			c.JSON(200,gin.H{
+				"code":500,
+				"msg":"无法查询",
+			})
+			return
+		}
+		_ = cache.SetGlobalCache(fmt.Sprintf("worker_%v", newid), rsp)
 		c.JSON(200,gin.H{
-			"code":500,
-			"msg":"无法查询",
+			"code":200,
+			"data":rsp,
 		})
+		return
 	}
-	c.JSON(200,rsp)
+	c.JSON(200,gin.H{
+		"code":200,
+		"data":res,
+	})
 }
 func GetUserInfoAll(c *gin.Context){
 	user,ok := c.Get("username")
-	fmt.Println("user")
-	fmt.Println(user)
 	if ok == false{
 		c.JSON(200,gin.H{
 			"code":500,
@@ -49,17 +55,29 @@ func GetUserInfoAll(c *gin.Context){
 		})
 		return
 	}
-	cl := works.NewWorksService("go.micro.service.works",client.DefaultClient)
-	rsp := &works.Response_Workers_Show{Workers: nil}
-	rsp,err := cl.FindAll(context.TODO(),&works.Request_Null{})
-	if err!=nil{
+	res,err := cache.GetGlobalCache("worker")
+	if err != nil || err == redis.Nil{
+		cl := works.NewWorksService("go.micro.service.works",client.DefaultClient)
+		rsp := &works.Response_Workers_Show{Workers: nil}
+		rsp,err := cl.FindAll(context.TODO(),&works.Request_Null{})
+		if err!=nil{
+			c.JSON(200,gin.H{
+				"code":500,
+				"msg":"无法查询",
+			})
+			return
+		}
+		_ = cache.SetGlobalCache("worker",rsp)
 		c.JSON(200,gin.H{
-			"code":500,
-			"msg":"无法查询",
+			"code":200,
+			"data":rsp,
 		})
 		return
 	}
-	c.JSON(200,rsp)
+	c.JSON(200,gin.H{
+		"code":200,
+		"data":res,
+	})
 }
 func GetUserInfoByNums(c *gin.Context){
 	user,_ := c.Get("username")
@@ -81,7 +99,10 @@ func GetUserInfoByNums(c *gin.Context){
 		})
 		return
 	}
-	c.JSON(200,rsp)
+	c.JSON(200,gin.H{
+		"code":200,
+		"data":rsp,
+	})
 }
 func GetUserInfoByName(c *gin.Context){
 	//获取基本信息，渲染到前端
@@ -103,7 +124,10 @@ func GetUserInfoByName(c *gin.Context){
 		})
 		return
 	}
-	c.JSON(200,rsp)
+	c.JSON(200,gin.H{
+		"code":200,
+		"data":rsp,
+	})
 }
 
 func GetUserInfoByUsername(c *gin.Context){
@@ -117,14 +141,26 @@ func GetUserInfoByUsername(c *gin.Context){
 		})
 		return
 	}
-	rsp := &works.Response_Worker_Show{Worker: nil}
-	rsp,err := cl.FindWorkerByUserName(context.TODO(),&works.Request_Worker_User{Username: username})
-	if err!=nil{
+	res,err := cache.GetGlobalCache(fmt.Sprintf("worker_user_%v",username))
+	if err != nil || err == redis.Nil{
+		rsp := &works.Response_Worker_Show{Worker: nil}
+		rsp,err := cl.FindWorkerByUserName(context.TODO(),&works.Request_Worker_User{Username: username})
+		if err!=nil{
+			c.JSON(200,gin.H{
+				"code":500,
+				"msg":"无法查询",
+			})
+			return
+		}
+		_ = cache.SetGlobalCache(fmt.Sprintf("worker_user_%v",username),rsp)
 		c.JSON(200,gin.H{
-			"code":500,
-			"msg":"无法查询",
+			"code":200,
+			"data":rsp,
 		})
 		return
 	}
-	c.JSON(200,rsp)
+	c.JSON(200,gin.H{
+		"code":200,
+		"data":res,
+	})
 }

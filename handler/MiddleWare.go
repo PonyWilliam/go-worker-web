@@ -8,8 +8,7 @@ import (
 func JWTAuthMiddleware() func(c *gin.Context) {
 	return func(c *gin.Context) {
 		// 客户端携带Token有三种方式 1.放在请求头 2.放在请求体 3.放在URI
-		// 这里假设Token放在Header的Authorization中，并使用Bearer开头
-		// 这里的具体实现方式要依据你的实际业务情况决定
+		// 这里假设Token放在Header的Authorization中,在跨域中也允许该字段跨域
 		authHeader := c.Request.Header.Get("Authorization")
 		if authHeader == "" {
 			c.JSON(http.StatusOK, gin.H{
