@@ -77,7 +77,7 @@ func GetUserInfoAll(c *gin.Context){
 		})
 		return
 	}
-	result := &works.Response_Worker_Show{}
+	result := &works.Response_Workers_Info{}
 	_ = json.Unmarshal([]byte(res), &result)
 	c.JSON(200,gin.H{
 		"code":200,
