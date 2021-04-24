@@ -70,7 +70,7 @@ func GetUserInfoAll(c *gin.Context){
 			})
 			return
 		}
-		_ = cache.SetGlobalCache("worker",rsp)
+		_ = cache.SetGlobalCache("worker",rsp.Workers)
 		c.JSON(200,gin.H{
 			"code":200,
 			"data":rsp.Workers,
