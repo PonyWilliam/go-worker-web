@@ -6,7 +6,6 @@
       <change afterPath="$PROJECT_DIR$/../ProductWeb/cache/cache.go" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../ProductWeb/global/redis.go" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../ProductWeb/temp.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WorkWeb" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../area/area" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../borrowLogs/borrowLog" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../dockerenv/temp.yml" afterDir="false" />
@@ -18,7 +17,9 @@
       <change beforePath="$PROJECT_DIR$/../ProductWeb/handler/Product.go" beforeDir="false" afterPath="$PROJECT_DIR$/../ProductWeb/handler/Product.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$" beforeDir="false" afterPath="$PROJECT_DIR$" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cache/cache.go" beforeDir="false" afterPath="$PROJECT_DIR$/cache/cache.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WorkWeb" beforeDir="false" afterPath="$PROJECT_DIR$/WorkWeb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../area/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../area/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../area/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../area/.idea/workspace.xml" afterDir="false" />

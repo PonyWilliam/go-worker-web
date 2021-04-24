@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/PonyWilliam/go-WorkWeb/global"
 	"github.com/PonyWilliam/go-WorkWeb/handler"
+	"github.com/PonyWilliam/go-common"
 	"github.com/afex/hystrix-go/hystrix"
 	"github.com/gin-gonic/gin"
 	"github.com/micro/go-micro/v2/registry"
@@ -33,6 +34,7 @@ func main() {
 			log.Fatal(err)
 		}
 	}()
+	go common.PrometheusBoot("5007")
 	v1 := router.Group("work")
 	v1.POST("/login",handler.CheckPwd)
 	v1.POST("/token/",handler.JWTAuthMiddleware(),handler.LoginByToken)
