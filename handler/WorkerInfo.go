@@ -73,15 +73,15 @@ func GetUserInfoAll(c *gin.Context){
 		_ = cache.SetGlobalCache("worker",rsp)
 		c.JSON(200,gin.H{
 			"code":200,
-			"data":rsp,
+			"data":rsp.Workers,
 		})
 		return
 	}
-	result := &works.Response_Workers_Info{}
-	_ = json.Unmarshal([]byte(res), &result)
+	result := &works.Response_Workers_Show{}
+	_ = json.Unmarshal([]byte(res), &result.Workers)
 	c.JSON(200,gin.H{
 		"code":200,
-		"data":result,
+		"data":result.Workers,
 	})
 }
 func GetUserInfoByNums(c *gin.Context){
