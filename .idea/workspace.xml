@@ -16,7 +16,6 @@
       <change beforePath="$PROJECT_DIR$/../ProductWeb/handler/Area.go" beforeDir="false" afterPath="$PROJECT_DIR$/../ProductWeb/handler/Area.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../ProductWeb/handler/Product.go" beforeDir="false" afterPath="$PROJECT_DIR$/../ProductWeb/handler/Product.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$" beforeDir="false" afterPath="$PROJECT_DIR$" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/handler/WorkerInfo.go" beforeDir="false" afterPath="$PROJECT_DIR$/handler/WorkerInfo.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../area/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../area/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../area/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../area/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../area/domain/model/area.go" beforeDir="false" afterPath="$PROJECT_DIR$/../area/domain/model/area.go" afterDir="false" />
