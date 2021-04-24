@@ -6,10 +6,6 @@ import (
 	"github.com/go-redis/redis"
 	"github.com/micro/go-micro/v2/util/log"
 )
-type Temp struct{
-	Name string
-	Age int64
-}
 func GetGlobalCache(key string)(rsp interface{},err error){
 	val,err := global.RedisDB.Get(key).Result()
 	if err == redis.Nil || err != nil{

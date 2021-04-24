@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/PonyWilliam/go-WorkWeb/global"
 	"github.com/PonyWilliam/go-WorkWeb/handler"
 	"github.com/afex/hystrix-go/hystrix"
 	"github.com/gin-gonic/gin"
@@ -54,6 +55,10 @@ func main() {
 	v1.GET("/",handler.JWTAuthMiddleware(),handler.GetAliCloudTempKey)
 	router.Use(Cors())
 	_ = router.Run()
+	err := global.SetupRedisDb()
+	if err != nil{
+		log.Fatal(err)
+	}
 	if err:=service.Run();err!=nil{
 		fmt.Println(err.Error())
 	}
