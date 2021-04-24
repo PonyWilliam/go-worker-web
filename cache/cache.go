@@ -6,10 +6,10 @@ import (
 	"github.com/go-redis/redis"
 	"github.com/micro/go-micro/v2/util/log"
 )
-func GetGlobalCache(key string)(rsp interface{},err error){
+func GetGlobalCache(key string)(rsp string,err error){
 	val,err := global.RedisDB.Get(key).Result()
 	if err == redis.Nil || err != nil{
-		return nil,err
+		return "",err
 	}
 	return val,nil
 }

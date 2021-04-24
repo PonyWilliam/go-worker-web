@@ -2,6 +2,7 @@ package handler
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"github.com/PonyWilliam/go-WorkWeb/cache"
 	works "github.com/PonyWilliam/go-works/proto"
@@ -34,9 +35,11 @@ func GetUserInfoByID(c *gin.Context){
 		})
 		return
 	}
+	result := &works.Response_Worker_Show{}
+	_ = json.Unmarshal([]byte(res), &result)
 	c.JSON(200,gin.H{
 		"code":200,
-		"data":res,
+		"data":result,
 	})
 }
 func GetUserInfoAll(c *gin.Context){
@@ -74,9 +77,11 @@ func GetUserInfoAll(c *gin.Context){
 		})
 		return
 	}
+	result := &works.Response_Worker_Show{}
+	_ = json.Unmarshal([]byte(res), &result)
 	c.JSON(200,gin.H{
 		"code":200,
-		"data":res,
+		"data":result,
 	})
 }
 func GetUserInfoByNums(c *gin.Context){
@@ -159,8 +164,10 @@ func GetUserInfoByUsername(c *gin.Context){
 		})
 		return
 	}
+	result := &works.Response_Worker_Show{}
+	_ = json.Unmarshal([]byte(res), &result)
 	c.JSON(200,gin.H{
 		"code":200,
-		"data":res,
+		"data":result,
 	})
 }
