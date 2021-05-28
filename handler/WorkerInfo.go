@@ -43,20 +43,12 @@ func GetUserInfoByID(c *gin.Context){
 	})
 }
 func GetUserInfoAll(c *gin.Context){
-	user,ok := c.Get("username")
-	if ok == false{
+	_,ok := c.Get("username")
+	if !ok{
 		c.JSON(200,gin.H{
 			"code":500,
-			"msg":"can not read id",
+			"msg":"请携带正确的token访问",
 		})
-		return
-	}
-	if user != "admin"{
-		c.JSON(200,gin.H{
-			"code":500,
-			"msg":"请使用管理员账号查询",
-		})
-		return
 	}
 	res,err := cache.GetGlobalCache("worker")
 	if err != nil || err == redis.Nil{
@@ -85,11 +77,11 @@ func GetUserInfoAll(c *gin.Context){
 	})
 }
 func GetUserInfoByNums(c *gin.Context){
-	user,_ := c.Get("username")
-	if user != "admin"{
+	_,ok := c.Get("username")
+	if !ok{
 		c.JSON(200,gin.H{
 			"code":500,
-			"msg":"您无权访问",
+			"msg":"请携带正确的token访问",
 		})
 	}
 	cl := works.NewWorksService("go.micro.service.works",client.DefaultClient)
@@ -111,11 +103,11 @@ func GetUserInfoByNums(c *gin.Context){
 }
 func GetUserInfoByName(c *gin.Context){
 	//获取基本信息，渲染到前端
-	user,_ := c.Get("username")
-	if user != "admin"{
+	_,ok := c.Get("username")
+	if !ok{
 		c.JSON(200,gin.H{
 			"code":500,
-			"msg":"您无权访问",
+			"msg":"请携带正确的token访问",
 		})
 	}
 	cl := works.NewWorksService("go.micro.service.works",client.DefaultClient)

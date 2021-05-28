@@ -15,7 +15,6 @@ import (
 	"strconv"
 	"time"
 )
-var jetson string = "jetson"
 func GetBorrowByWorkerID(c *gin.Context){
 	user,ok := c.Get("username")
 	now := c.Query("now")
@@ -317,7 +316,7 @@ func To_Other(c *gin.Context){
 	if test == 0{
 		c.JSON(200,gin.H{
 			"code":500,
-			"msg":"已有记录，无法继续出借",
+			"msg":"有正在申请转借的记录，暂时无法重复申请",
 		})
 		return
 	}
@@ -397,6 +396,9 @@ func Confirm(c *gin.Context){
 		})
 		return
 	}
+	//改变产品所有者
+	cl3 := product.NewProductService("go.micro.service.product",client.DefaultClient)
+	_,_ = cl3.ChangeProduct(context.TODO(),&product.Request_ProductInfo{Id: rsp.PID,ProductBelongCustom: rsp.RspWID})
 	c.JSON(200,rsp2.Message)
 }
 func Reject(c *gin.Context){
@@ -450,6 +452,7 @@ func Reject(c *gin.Context){
 		})
 		return
 	}
+
 	c.JSON(200,gin.H{
 		"code":200,
 		"msg":rsp2.Message,

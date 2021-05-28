@@ -15,7 +15,7 @@ import (
 )
 func main() {
 	consul:= consul2.NewRegistry(func(options *registry.Options) {
-		options.Addrs = []string{"106.13.132.160"}
+		options.Addrs = []string{"1.116.62.214"}
 	})
 	router := gin.Default()
 	service:= web.NewService(
@@ -55,6 +55,9 @@ func main() {
 	v1.GET("/req",handler.JWTAuthMiddleware(),handler.GetLogByReqWID)
 	v1.GET("/rsp",handler.JWTAuthMiddleware(),handler.GetLogByRspWID)
 	v1.GET("/",handler.JWTAuthMiddleware(),handler.GetAliCloudTempKey)
+	v1.POST("/qr",handler.JWTAuthMiddleware(),handler.GetQrcodeToken)
+	v1.GET("/qr",handler.JWTAuthMiddleware2(),handler.GetQrcodeInfo)
+	v1.POST("/byqr",handler.JWTAuthMiddleware2(),handler.CheckQrcodeToken)
 	router.Use(Cors())
 	_ = router.Run()
 	err := global.SetupRedisDb()
@@ -78,7 +81,6 @@ func Cors() gin.HandlerFunc {
 			c.AbortWithStatus(http.StatusNoContent)
 		}
 		// 处理请求
-		fmt.Println("test")
 		c.Next()
 	}
 }

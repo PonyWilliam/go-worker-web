@@ -10,6 +10,24 @@
       <change afterPath="$PROJECT_DIR$/../borrowLogs/borrowLog" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../dockerenv/temp.yml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../product/go-product" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../qrcode/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../qrcode/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../qrcode/.idea/qrcode.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../qrcode/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../qrcode/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../qrcode/123.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../qrcode/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../qrcode/Makefile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../qrcode/go-qrcode" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../qrcode/go.mod" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../qrcode/go.sum" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../qrcode/handler/handler.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../qrcode/main.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../qrcode/qr2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../study/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../study/.idea/study.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../study/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../study/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../ProductWeb/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../ProductWeb/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../ProductWeb/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../ProductWeb/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../ProductWeb/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/../ProductWeb/go.sum" afterDir="false" />
@@ -17,7 +35,13 @@
       <change beforePath="$PROJECT_DIR$/../ProductWeb/handler/Product.go" beforeDir="false" afterPath="$PROJECT_DIR$/../ProductWeb/handler/Product.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$" beforeDir="false" afterPath="$PROJECT_DIR$" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WorkWeb" beforeDir="false" afterPath="$PROJECT_DIR$/WorkWeb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/handler/Borrow.go" beforeDir="false" afterPath="$PROJECT_DIR$/handler/Borrow.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/handler/MiddleWare.go" beforeDir="false" afterPath="$PROJECT_DIR$/handler/MiddleWare.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/handler/WorkerInfo.go" beforeDir="false" afterPath="$PROJECT_DIR$/handler/WorkerInfo.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/handler/WorksLogin.go" beforeDir="false" afterPath="$PROJECT_DIR$/handler/WorksLogin.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main" beforeDir="false" afterPath="$PROJECT_DIR$/main" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../area/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../area/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../area/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../area/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../area/domain/model/area.go" beforeDir="false" afterPath="$PROJECT_DIR$/../area/domain/model/area.go" afterDir="false" />
