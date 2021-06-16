@@ -1,7 +1,12 @@
-FROM alpine:latest
+FROM nimmis/golang
 
+MAINTAINER  "william"
 RUN mkdir /app
-WORKDIR /app
-ADD WorkWeb /app/WorkWeb
-
-CMD ["./WorkWeb"]
+WORKDIR /app/
+ADD . /app/
+RUN go env -w GO111MODULE="on"
+RUN go env -w GOPROXY="https://goproxy.io"
+RUN go env -w GOOS="linux"
+RUN go build -o WorkWeb .
+ENV GOPATH=/root/go
+ENTRYPOINT  ["./WorkWeb"]

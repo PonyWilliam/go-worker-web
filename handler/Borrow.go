@@ -398,7 +398,13 @@ func Confirm(c *gin.Context){
 	}
 	//改变产品所有者
 	cl3 := product.NewProductService("go.micro.service.product",client.DefaultClient)
-	_,_ = cl3.ChangeProduct(context.TODO(),&product.Request_ProductInfo{Id: rsp.PID,ProductBelongCustom: rsp.RspWID})
+	products,err := cl3.FindProductByID(context.TODO(),&product.Request_ProductID{Id: rsp.PID})
+	if err != nil{
+		c.JSON(200,"fail")
+		return
+	}
+	_,_ = cl3.ChangeProduct(context.TODO(),&product.Request_ProductInfo{Id: rsp.PID,ProductBelongCustom: rsp.RspWID,ProductName: products.ProductName,ProductDescription: products.ProductDescription,ProductLevel: products.ProductLevel,ProductBelongCategory: products.ProductBelongCategory,ProductBelongArea: products.ProductBelongArea,ProductIs: products.ProductIs,ProductRfid: products.ProductRfid,ProductLocation: products.ProductLocation,ImageId: products.ImageId,IsImportant: products.IsImportant})
+	//这TM就是给自己挖的大坑。直到现在才被发现。
 	c.JSON(200,rsp2.Message)
 }
 func Reject(c *gin.Context){

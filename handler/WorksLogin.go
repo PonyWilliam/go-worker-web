@@ -59,6 +59,22 @@ func CheckPwd(c *gin.Context){
 	token,_ := GenToken(username)
 	c.JSON(200,gin.H{"code":200,"msg":"登陆成功","token":token})
 }
+func GenTokenByWechat(c *gin.Context){
+	res := c.GetHeader("secret")
+	if res!="wechat666"{
+		c.JSON(200,gin.H{
+			"code":"500",
+			"msg":"error",
+		})
+		return
+	}
+	user := c.PostForm("user")
+	token, _ := GenToken(user)
+	c.JSON(200,gin.H{
+		"code":200,
+		"token":token,
+	})
+}
 func GetQrcodeToken(c *gin.Context){
 	user,ok := c.Get("username")
 	if !ok{
@@ -106,11 +122,12 @@ func CheckQrcodeToken(c *gin.Context){
 	//该接口就牛逼了，用于开门禁
 	rfid := c.PostForm("rfid")
 	rfids := strings.Split(rfid,",")
-	if len(rfids) < 1{
+	if len(rfids) < 1 || rfid == "" || len(rfid) < 5{
 		c.JSON(200,gin.H{
-			"code":500,
-			"msg":"请携带rfid访问",
+			"code":200,
+			"msg":"无RFID，直接放行",
 		})
+		return
 	}
 	cl := works.NewWorksService("go.micro.service.works",client.DefaultClient)
 	cl2 := product.NewProductService("go.micro.service.product",client.DefaultClient)
@@ -148,15 +165,28 @@ func CheckQrcodeToken(c *gin.Context){
 			})
 			return
 		}
-		if res2.ProductIs == false{
+		if res2.ProductIs == false && res2.ProductBelongCustom != rsp.Worker.ID{
 			c.JSON(200,gin.H{
 				"code":500,
 				"msg":fmt.Sprintf("您租借的:%v不在库",res2.ProductName),
 			})
 			return
+		}else if res2.ProductIs == false {
+			//已经被借走了
+			c.JSON(200,gin.H{
+				"code":500,
+				"msg":"您租借的物品已被借走",
+			})
+			return
+		}else if res2.ProductLevel > rsp.Worker.Level{
+			c.JSON(200,gin.H{
+				"code":500,
+				"msg":"您没有权限租借物品:" + res2.ProductName + fmt.Sprintf("(%v)",res2.Id),
+			})
+			return
 		}
-		products = append(products,res2)
 		//要求借出
+		products = append(products,res2)
 	}
 	for _,v := range products{
 		BorrowBy(rsp,v)

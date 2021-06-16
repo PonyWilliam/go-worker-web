@@ -58,6 +58,7 @@ func main() {
 	v1.POST("/qr",handler.JWTAuthMiddleware(),handler.GetQrcodeToken)
 	v1.GET("/qr",handler.JWTAuthMiddleware2(),handler.GetQrcodeInfo)
 	v1.POST("/byqr",handler.JWTAuthMiddleware2(),handler.CheckQrcodeToken)
+	v1.POST("/wechat",handler.GenTokenByWechat)
 	router.Use(Cors())
 	_ = router.Run()
 	err := global.SetupRedisDb()

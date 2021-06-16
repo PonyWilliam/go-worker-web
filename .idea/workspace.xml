@@ -5,11 +5,30 @@
       <change afterPath="$PROJECT_DIR$/../ProductWeb/ProductWeb" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../ProductWeb/cache/cache.go" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../ProductWeb/global/redis.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ProductWeb/handler/Door.go" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../ProductWeb/temp.json" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../area/area" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../borrowLogs/borrowLog" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../arealogs/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../arealogs/.idea/arealogs.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../arealogs/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../arealogs/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../arealogs/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../arealogs/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../arealogs/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../arealogs/Makefile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../arealogs/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../arealogs/generate.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../arealogs/go.mod" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../arealogs/go.sum" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../arealogs/handler/arealogs.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../arealogs/main.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../arealogs/models/models.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../arealogs/plugin.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../arealogs/proto/arealogs/arealogs.pb.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../arealogs/proto/arealogs/arealogs.pb.micro.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../arealogs/proto/arealogs/arealogs.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../arealogs/proto/imports/api.proto" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../dockerenv/temp.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../product/go-product" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../qrcode/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../qrcode/.idea/modules.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../qrcode/.idea/qrcode.iml" afterDir="false" />
@@ -32,15 +51,16 @@
       <change beforePath="$PROJECT_DIR$/../ProductWeb/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../ProductWeb/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../ProductWeb/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/../ProductWeb/go.sum" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../ProductWeb/handler/Area.go" beforeDir="false" afterPath="$PROJECT_DIR$/../ProductWeb/handler/Area.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ProductWeb/handler/MiddleWare.go" beforeDir="false" afterPath="$PROJECT_DIR$/../ProductWeb/handler/MiddleWare.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../ProductWeb/handler/Product.go" beforeDir="false" afterPath="$PROJECT_DIR$/../ProductWeb/handler/Product.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$" beforeDir="false" afterPath="$PROJECT_DIR$" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WorkWeb" beforeDir="false" afterPath="$PROJECT_DIR$/WorkWeb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WorkWeb" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/handler/Borrow.go" beforeDir="false" afterPath="$PROJECT_DIR$/handler/Borrow.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/handler/MiddleWare.go" beforeDir="false" afterPath="$PROJECT_DIR$/handler/MiddleWare.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/handler/WorkerInfo.go" beforeDir="false" afterPath="$PROJECT_DIR$/handler/WorkerInfo.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/handler/WorksLogin.go" beforeDir="false" afterPath="$PROJECT_DIR$/handler/WorksLogin.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main" beforeDir="false" afterPath="$PROJECT_DIR$/main" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../area/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../area/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../area/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../area/.idea/workspace.xml" afterDir="false" />
